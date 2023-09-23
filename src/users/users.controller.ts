@@ -24,6 +24,8 @@ export class UsersController {
   @ApiOperation({ summary: 'Create user' })
   @ApiResponse({ status: 200, type: User })
   @UsePipes(ValidationPipe)
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
   @Post()
   create(@Body() userDto: CreateUserDto) {
     return this.userService.createUser(userDto);
@@ -40,7 +42,7 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Set roles' })
   @ApiResponse({ status: 200 })
-  @Roles('USER')
+  @Roles('ADMIN')
   @UseGuards(RolesGuard)
   @Post('/role')
   addRole(@Body() dto: AddRoleDto) {
@@ -49,7 +51,7 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Ban user' })
   @ApiResponse({ status: 200 })
-  @Roles('USER')
+  @Roles('ADMIN')
   @UseGuards(RolesGuard)
   @Post('/ban')
   ban(@Body() dto: BanUserDto) {
